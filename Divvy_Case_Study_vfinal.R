@@ -187,6 +187,26 @@ every_trip_v2<- every_trip[!(every_trip$start_station_name == "HQ QR" | every_tr
 View(every_trip_v2)
 
 # STEP 4: CONDUCT DESCRIPTIVE ANALYSIS
+## Total members vs Casual rides percentage
+casual_weekend_ride <- every_trip_v2 %>%
+  filter(member_casual == "casual") %>%
+  mutate(day_of_week = wday(started_at, label = TRUE)) %>%
+  filter(day_of_week %in% c("Sat", "Sun")) %>%
+  count()
+print(casual_ride)
+
+casual_rides <- 71643
+member_rides <- 720313
+total_rides <- 791956
+
+## Calculate percentages
+casual_percent <- round(casual_weekend_ride / casual_rides, 2) * 100
+
+member_percent <- round(member_rides / total_rides, 2) * 100
+print(casual_percent)
+
+print(member_percent)
+
 ## Descriptive analysis on ride_length (all figures in seconds)
 ## Straight average (total ride length / rides)
 mean(every_trip_v2$ride_length)
